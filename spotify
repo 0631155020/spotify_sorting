@@ -1,0 +1,52 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+
+typedef struct 
+{
+    char title[41];
+    int lenght;
+    int plays;
+}TRACK;
+
+int cmp(const void *a, const void *b)
+{
+    TRACK *left = (TRACK*) a;
+    TRACK *right  =(TRACK*) b;
+
+    if (right->plays != left->plays)
+    {
+        return left->plays - right->plays;
+    }
+
+    if (right->lenght != left->lenght)//question about bug
+    {
+        return left->lenght-right->lenght;//question about input
+    }
+    
+    return strcmp(left->title, right->title);
+}
+
+int main()
+{
+    char line[61];
+    int num = atoi(gets(line));
+
+    TRACK track[num];
+
+    for (int i = 1; i <= num; i++)
+    {
+        gets(line);
+        strcpy(track[i].title,strtok(line,";"));
+        track[i].lenght = atoi(strtok(NULL,";"));
+        track[i].plays = atoi(strtok(NULL,";"));
+    }
+
+    qsort(track,num,sizeof(TRACK),cmp);
+    puts("");
+    for (int i = 1; i <= num; i++)
+    {
+        printf("#%d %s: %d (%d)\n",i,track[i].title,track[i].lenght,track[i].plays);
+    }
+    
+}
